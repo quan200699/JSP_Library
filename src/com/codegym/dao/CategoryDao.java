@@ -27,7 +27,19 @@ public class CategoryDao implements ICategoryDao{
 
     @Override
     public Category findById(int id) {
-        return null;
+        Category category = new Category();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(StaticVariable.SELECT_CATEGORY_BY_ID_SQL)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                category = new Category(id, name);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return category;
     }
 
     @Override
@@ -54,6 +66,13 @@ public class CategoryDao implements ICategoryDao{
 
     @Override
     public boolean updateById(Category category) throws SQLException {
-        return false;
+        boolean rowUpdated;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(StaticVariable.UPDATE_CATEGORY_BY_ID_SQL)) {
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setInt(2, category.getId());
+            rowUpdated = preparedStatement.executeUpdate() > 0;
+        }
+        return rowUpdated;
     }
 }

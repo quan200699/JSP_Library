@@ -1,6 +1,7 @@
 package com.codegym.controller;
 
 import com.codegym.dao.CategoryDao;
+import com.codegym.model.Book;
 import com.codegym.model.Category;
 
 import javax.servlet.RequestDispatcher;
@@ -34,6 +35,7 @@ public class CategoryServlet extends HttpServlet {
                     break;
                 }
                 case "edit": {
+                    showEditForm(req, resp);
                     break;
                 }
                 case "delete": {
@@ -47,6 +49,15 @@ public class CategoryServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new ServletException(e);
         }
+    }
+
+    private void showEditForm(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException, SQLException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Category category = categoryDao.findById(id);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("category/edit.jsp");
+        req.setAttribute("category", category);
+        requestDispatcher.forward(req, resp);
     }
 
     private void showCreateForm(HttpServletRequest req, HttpServletResponse resp)
@@ -76,6 +87,7 @@ public class CategoryServlet extends HttpServlet {
                     break;
                 }
                 case "edit": {
+                    updateCategory(req, resp);
                     break;
                 }
                 case "delete": {
@@ -85,6 +97,16 @@ public class CategoryServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateCategory(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, IOException, ServletException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        Category category = new Category(id, name);
+        categoryDao.updateById(category);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("category/edit.jsp");
+        requestDispatcher.forward(req, resp);
     }
 
     private void insertCategory(HttpServletRequest req, HttpServletResponse resp)
