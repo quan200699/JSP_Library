@@ -7,16 +7,14 @@ public class Book {
 
     private String author;
 
-    private String description;
 
     public Book() {
     }
 
-    public Book(int id, String name, String author, String description) {
+    public Book(int id, String name, String author) {
         this.id = id;
         this.name = name;
         this.author = author;
-        this.description = description;
     }
 
     public int getId() {
@@ -41,13 +39,5 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }
