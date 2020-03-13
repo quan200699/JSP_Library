@@ -39,6 +39,7 @@ public class CategoryServlet extends HttpServlet {
                     break;
                 }
                 case "delete": {
+                    showDeleteForm(req, resp);
                     break;
                 }
                 default: {
@@ -49,6 +50,15 @@ public class CategoryServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new ServletException(e);
         }
+    }
+
+    private void showDeleteForm(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Category category = categoryDao.findById(id);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("category/delete.jsp");
+        req.setAttribute("category", category);
+        requestDispatcher.forward(req, resp);
     }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp)
@@ -91,12 +101,20 @@ public class CategoryServlet extends HttpServlet {
                     break;
                 }
                 case "delete": {
+                    deleteCategory(req, resp);
                     break;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void deleteCategory(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        categoryDao.removeById(id);
+        resp.sendRedirect(req.getContextPath() + "categories");
     }
 
     private void updateCategory(HttpServletRequest req, HttpServletResponse resp)

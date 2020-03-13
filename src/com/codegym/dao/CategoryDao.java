@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.codegym.StaticVariable.getConnection;
+import static com.codegym.StaticVariable.*;
 
 public class CategoryDao implements ICategoryDao{
     @Override
@@ -61,7 +61,13 @@ public class CategoryDao implements ICategoryDao{
 
     @Override
     public boolean removeById(int id) throws SQLException {
-        return false;
+        boolean rowDeleted;
+        try (Connection connection = StaticVariable.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CATEGORY_BY_ID_SQL)) {
+            preparedStatement.setInt(1, id);
+            rowDeleted = preparedStatement.executeUpdate() > 0;
+        }
+        return rowDeleted;
     }
 
     @Override
