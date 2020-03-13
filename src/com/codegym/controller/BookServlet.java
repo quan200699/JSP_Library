@@ -1,5 +1,6 @@
 package com.codegym.controller;
 
+import com.codegym.StaticVariable;
 import com.codegym.dao.BookDao;
 import com.codegym.model.Book;
 
@@ -65,6 +66,35 @@ public class BookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        try {
+            switch (action) {
+                case "create": {
+                    InsertBook(req, resp);
+                    break;
+                }
+                case "edit": {
+                    break;
+                }
+                case "delete": {
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void InsertBook(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, IOException, ServletException {
+        String name = req.getParameter("name");
+        String author = req.getParameter("author");
+        Book book = new Book(name, author);
+        bookDao.insert(book);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/create.jsp");
+        requestDispatcher.forward(req, resp);
     }
 }
