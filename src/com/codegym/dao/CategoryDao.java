@@ -16,6 +16,13 @@ import static com.codegym.StaticVariable.getConnection;
 public class CategoryDao implements ICategoryDao{
     @Override
     public void insert(Category object) throws SQLException {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(StaticVariable.INSERT_CATEGORY_SQL)) {
+            preparedStatement.setString(1, object.getName());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

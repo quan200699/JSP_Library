@@ -30,6 +30,7 @@ public class CategoryServlet extends HttpServlet {
         try {
             switch (action) {
                 case "create": {
+                    showCreateForm(req, resp);
                     break;
                 }
                 case "edit": {
@@ -48,6 +49,12 @@ public class CategoryServlet extends HttpServlet {
         }
     }
 
+    private void showCreateForm(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, IOException, ServletException {
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("category/create.jsp");
+        requestDispatcher.forward(req, resp);
+    }
+
     private void findAllCategory(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException, SQLException {
         List<Category> categories = categoryDao.findAll();
@@ -58,6 +65,34 @@ public class CategoryServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        try {
+            switch (action) {
+                case "create": {
+                    insertCategory(req, resp);
+                    break;
+                }
+                case "edit": {
+                    break;
+                }
+                case "delete": {
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertCategory(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, IOException, ServletException {
+        String name = req.getParameter("name");
+        Category category = new Category(name);
+        categoryDao.insert(category);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("category/create.jsp");
+        requestDispatcher.forward(req, resp);
     }
 }
