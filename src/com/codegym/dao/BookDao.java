@@ -5,7 +5,9 @@ import com.codegym.model.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookDao implements IBookDao {
@@ -28,7 +30,20 @@ public class BookDao implements IBookDao {
 
     @Override
     public List<Book> findAll() {
-        return null;
+        List<Book> books = new ArrayList<>();
+        try (Connection connection = StaticVariable.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(StaticVariable.SELECT_ALL_BOOK_SQL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String author = resultSet.getString("author");
+                books.add(new Book(id, name, author));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
     }
 
     @Override
