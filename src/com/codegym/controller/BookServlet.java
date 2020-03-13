@@ -1,6 +1,5 @@
 package com.codegym.controller;
 
-import com.codegym.StaticVariable;
 import com.codegym.dao.BookDao;
 import com.codegym.model.Book;
 
@@ -35,6 +34,7 @@ public class BookServlet extends HttpServlet {
                     break;
                 }
                 case "edit": {
+                    showEditForm(req, resp);
                     break;
                 }
                 case "delete": {
@@ -48,6 +48,15 @@ public class BookServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new ServletException(e);
         }
+    }
+
+    private void showEditForm(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException, SQLException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Book book = bookDao.findById(id);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/edit.jsp");
+        req.setAttribute("book", book);
+        requestDispatcher.forward(req, resp);
     }
 
     private void showCreateForm(HttpServletRequest req, HttpServletResponse resp)
@@ -73,10 +82,11 @@ public class BookServlet extends HttpServlet {
         try {
             switch (action) {
                 case "create": {
-                    InsertBook(req, resp);
+                    insertBook(req, resp);
                     break;
                 }
                 case "edit": {
+                    updateBook(req, resp);
                     break;
                 }
                 case "delete": {
@@ -88,7 +98,18 @@ public class BookServlet extends HttpServlet {
         }
     }
 
-    private void InsertBook(HttpServletRequest req, HttpServletResponse resp)
+    private void updateBook(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, IOException, ServletException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        String author = req.getParameter("author");
+        Book book = new Book(id, name, author);
+        bookDao.updateById(book);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/edit.jsp");
+        requestDispatcher.forward(req, resp);
+    }
+
+    private void insertBook(HttpServletRequest req, HttpServletResponse resp)
             throws SQLException, IOException, ServletException {
         String name = req.getParameter("name");
         String author = req.getParameter("author");
