@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: ASUS
   Date: 3/4/2020
-  Time: 3:52 PM
+  Time: 4:28 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,22 +13,25 @@
 </head>
 <body>
 <h1>
-    <a href="/books">Book Management</a>
+    <a href="/books">Book management</a>
 </h1>
-<h1>Create new book</h1>
+<h2>Delete Book</h2>
 <form method="post">
+    <c:if test="${book != null}">
+        <input type="hidden" name="id" value="<c:out value='${book.id}' />"/>
+    </c:if>
     <table>
         <tr>
             <td>Name</td>
-            <td><input type="text" name="name" id="name"></td>
+            <td><c:out value='${book.name}'/></td>
         </tr>
         <tr>
             <td>Author</td>
-            <td><input type="text" name="author" id="author"></td>
+            <td><c:out value='${book.author}'/></td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" value="save"></td>
+            <td><input type="submit" value="delete"></td>
         </tr>
     </table>
 </form>

@@ -38,6 +38,7 @@ public class BookServlet extends HttpServlet {
                     break;
                 }
                 case "delete": {
+                    showDeleteForm(req, resp);
                     break;
                 }
                 default: {
@@ -48,6 +49,15 @@ public class BookServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new ServletException(e);
         }
+    }
+
+    private void showDeleteForm(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Book book = bookDao.findById(id);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/delete.jsp");
+        req.setAttribute("book", book);
+        requestDispatcher.forward(req, resp);
     }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp)
@@ -90,12 +100,20 @@ public class BookServlet extends HttpServlet {
                     break;
                 }
                 case "delete": {
+                    deleteBook(req, resp);
                     break;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void deleteBook(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        bookDao.removeById(id);
+        resp.sendRedirect(req.getContextPath() + "books");
     }
 
     private void updateBook(HttpServletRequest req, HttpServletResponse resp)
