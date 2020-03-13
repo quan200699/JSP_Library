@@ -16,6 +16,12 @@ public class StaticVariable {
     public static final String DELETE_BOOK_BY_ID_SQL = "DELETE FROM books WHERE id = ?";
     public static final String UPDATE_BOOK_BY_ID_SQL = "UPDATE books SET name = ?, author = ? WHERE id = ?";
 
+    public static final String INSERT_CATEGORY_SQL = "INSERT INTO categories (name) VALUES (?)";
+    public static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM categories";
+    public static final String SELECT_CATEGORY_BY_ID_SQL = "SELECT * FROM categories WHERE id = ?";
+    public static final String DELETE_CATEGORY_BY_ID_SQL = "DELETE FROM categories WHERE id = ?";
+    public static final String UPDATE_CATEGORY_BY_ID_SQL = "UPDATE categories SET name = ? WHERE id = ?";
+
     public static Connection getConnection() {
         Connection connection = null;
         try {
