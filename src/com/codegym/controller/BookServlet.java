@@ -30,6 +30,7 @@ public class BookServlet extends HttpServlet {
         try {
             switch (action) {
                 case "create": {
+                    showCreateForm(req, resp);
                     break;
                 }
                 case "edit": {
@@ -48,8 +49,14 @@ public class BookServlet extends HttpServlet {
         }
     }
 
+    private void showCreateForm(HttpServletRequest req, HttpServletResponse resp)
+            throws SQLException, IOException, ServletException {
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/create.jsp");
+        requestDispatcher.forward(req, resp);
+    }
+
     private void findAllBook(HttpServletRequest req, HttpServletResponse resp)
-            throws SQLException, IOException, ServletException{
+            throws SQLException, IOException, ServletException {
         List<Book> books = bookDao.findAll();
         req.setAttribute("books", books);
         RequestDispatcher dispatcher = req.getRequestDispatcher("book/list.jsp");
