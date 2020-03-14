@@ -5,11 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class StaticVariable {
-    private static String jdbcUrl = "jdbc:mysql://localhost:3306/library";
-    private static String jdbcUsername = "root";
-    private static String jdbcPassword = "123456";
-    private static String jdbcDriver = "com.mysql.cj.jdbc.Driver";
-
     public static final String INSERT_BOOK_SQL = "INSERT INTO books (name, author, category_id) VALUES (?, ?, ?)";
     public static final String SELECT_ALL_BOOK_SQL = "SELECT * FROM books";
     public static final String SELECT_BOOK_BY_ID_SQL = "SELECT * FROM books WHERE id = ?";
@@ -25,7 +20,11 @@ public class StaticVariable {
     public static Connection getConnection() {
         Connection connection = null;
         try {
+            String jdbcDriver = "com.mysql.cj.jdbc.Driver";
             Class.forName(jdbcDriver);
+            String jdbcUrl = "jdbc:mysql://localhost:3306/library";
+            String jdbcUsername = "root";
+            String jdbcPassword = "123456";
             connection = DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

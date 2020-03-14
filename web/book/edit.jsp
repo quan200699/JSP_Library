@@ -30,6 +30,17 @@
             <td><input type="text" name="author" id="author" value="<c:out value='${book.author}'/>"></td>
         </tr>
         <tr>
+            <td>Category</td>
+            <td>
+                <select name="category" id="category">
+                    <option selected value="null">Select Category</option>
+                    <c:forEach var="category" items="${categories}">
+                        <option value="${category.id}"><c:out value="${category.name}"/></option>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td></td>
             <td><input type="submit" value="edit"></td>
         </tr>

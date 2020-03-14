@@ -68,6 +68,8 @@ public class BookServlet extends HttpServlet {
             throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(req.getParameter("id"));
         Book book = bookDao.findById(id);
+        List<Category> categories = categoryDao.findAll();
+        req.setAttribute("categories", categories);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/edit.jsp");
         req.setAttribute("book", book);
         requestDispatcher.forward(req, resp);
@@ -127,8 +129,8 @@ public class BookServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         String author = req.getParameter("author");
-        int category_id = Integer.parseInt(req.getParameter("author"));
-        Book book = new Book(id, name, author, category_id);
+        int categoryId = Integer.parseInt(req.getParameter("category"));
+        Book book = new Book(id, name, author, categoryId);
         bookDao.updateById(book);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/edit.jsp");
         requestDispatcher.forward(req, resp);
