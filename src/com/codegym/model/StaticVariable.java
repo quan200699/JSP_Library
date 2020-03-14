@@ -1,4 +1,4 @@
-package com.codegym;
+package com.codegym.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

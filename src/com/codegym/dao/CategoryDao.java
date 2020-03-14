@@ -1,7 +1,6 @@
 package com.codegym.dao;
 
-import com.codegym.StaticVariable;
-import com.codegym.model.Book;
+import com.codegym.model.StaticVariable;
 import com.codegym.model.Category;
 
 import java.sql.Connection;
@@ -11,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.codegym.StaticVariable.*;
+import static com.codegym.model.StaticVariable.*;
 
 public class CategoryDao implements ICategoryDao{
     @Override

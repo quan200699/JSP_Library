@@ -1,6 +1,6 @@
 package com.codegym.dao;
 
-import com.codegym.StaticVariable;
+import com.codegym.model.StaticVariable;
 import com.codegym.model.Book;
 
 import java.sql.Connection;
@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.codegym.StaticVariable.DELETE_BOOK_BY_ID_SQL;
-import static com.codegym.StaticVariable.getConnection;
+import static com.codegym.model.StaticVariable.DELETE_BOOK_BY_ID_SQL;
+import static com.codegym.model.StaticVariable.getConnection;
 
 public class BookDao implements IBookDao {
     @Override
