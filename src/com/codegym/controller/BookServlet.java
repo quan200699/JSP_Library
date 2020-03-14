@@ -22,7 +22,7 @@ public class BookServlet extends HttpServlet {
 
     public void init() {
         bookDao = new BookDao();
-        categoryDao =new CategoryDao();
+        categoryDao = new CategoryDao();
     }
 
     @Override
@@ -45,6 +45,10 @@ public class BookServlet extends HttpServlet {
                     showDeleteForm(req, resp);
                     break;
                 }
+                case "search": {
+                    searchByName(req, resp);
+                    break;
+                }
                 default: {
                     findAllBook(req, resp);
                     break;
@@ -53,6 +57,14 @@ public class BookServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new ServletException(e);
         }
+    }
+
+    private void searchByName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("nameSearch");
+        List<Book> books = bookDao.findByNameContaining(name);
+        req.setAttribute("books", books);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("book/list.jsp");
+        dispatcher.forward(req, resp);
     }
 
     private void showDeleteForm(HttpServletRequest req, HttpServletResponse resp)

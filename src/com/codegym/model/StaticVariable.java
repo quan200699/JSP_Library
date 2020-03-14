@@ -10,6 +10,7 @@ public class StaticVariable {
     public static final String SELECT_BOOK_BY_ID_SQL = "SELECT * FROM books WHERE id = ?";
     public static final String DELETE_BOOK_BY_ID_SQL = "DELETE FROM books WHERE id = ?";
     public static final String UPDATE_BOOK_BY_ID_SQL = "UPDATE books SET name = ?, author = ?, category_id = ? WHERE id = ?";
+    public static final String FIND_BOOK_BY_NAME_CONTAINING_SQL = "SELECT * FROM books WHERE name LIKE ?";
 
     public static final String INSERT_CATEGORY_SQL = "INSERT INTO categories (name) VALUES (?)";
     public static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM categories";

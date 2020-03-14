@@ -14,6 +14,14 @@
 </head>
 <body>
 <h1>Book Management</h1>
+<form method="get">
+    <input hidden name="action" value="search"/>
+    <div>
+        <input type="text" name="nameSearch" class="form-control" placeholder="input name">
+    </div>
+    <button class="btn btn-primary mb-2" type="submit" value="search">Search
+    </button>
+</form>
 <h2>
     <a href="/books?action=create">Add new book</a>
 </h2>

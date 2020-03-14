@@ -37,8 +37,8 @@ public class BookDao implements IBookDao {
             while (resultSet.next()) {
                 String name = resultSet.getString("name");
                 String author = resultSet.getString("author");
-                int category_id = Integer.parseInt(resultSet.getString("category_id"));
-                book = new Book(id, name, author, category_id);
+                int categoryId = Integer.parseInt(resultSet.getString("category_id"));
+                book = new Book(id, name, author, categoryId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,5 +88,25 @@ public class BookDao implements IBookDao {
             rowUpdated = preparedStatement.executeUpdate() > 0;
         }
         return rowUpdated;
+    }
+
+    @Override
+    public List<Book> findByNameContaining(String name) {
+        List<Book> books = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(StaticVariable.FIND_BOOK_BY_NAME_CONTAINING_SQL)) {
+            preparedStatement.setString(1, name + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String author = resultSet.getString("author");
+                name = resultSet.getString("name");
+                int categoryId = Integer.parseInt(resultSet.getString("category_id"));
+                books.add(new Book(id, name, author, categoryId));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
     }
 }
