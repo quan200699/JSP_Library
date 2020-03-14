@@ -20,6 +20,7 @@ public class BookDao implements IBookDao {
              PreparedStatement preparedStatement = connection.prepareStatement(StaticVariable.INSERT_BOOK_SQL)) {
             preparedStatement.setString(1, object.getName());
             preparedStatement.setString(2, object.getAuthor());
+            preparedStatement.setInt(3, object.getCategory_id());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -36,7 +37,8 @@ public class BookDao implements IBookDao {
             while (resultSet.next()) {
                 String name = resultSet.getString("name");
                 String author = resultSet.getString("author");
-                book = new Book(id, name, author);
+                int category_id = Integer.parseInt(resultSet.getString("category_id"));
+                book = new Book(id, name, author, category_id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,7 +56,8 @@ public class BookDao implements IBookDao {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String author = resultSet.getString("author");
-                books.add(new Book(id, name, author));
+                int category_id = Integer.parseInt(resultSet.getString("category_id"));
+                books.add(new Book(id, name, author, category_id));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,7 +83,8 @@ public class BookDao implements IBookDao {
              PreparedStatement preparedStatement = connection.prepareStatement(StaticVariable.UPDATE_BOOK_BY_ID_SQL)) {
             preparedStatement.setString(1, book.getName());
             preparedStatement.setString(2, book.getAuthor());
-            preparedStatement.setInt(3, book.getId());
+            preparedStatement.setInt(3, book.getCategory_id());
+            preparedStatement.setInt(4, book.getId());
             rowUpdated = preparedStatement.executeUpdate() > 0;
         }
         return rowUpdated;

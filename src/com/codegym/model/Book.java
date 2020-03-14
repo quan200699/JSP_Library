@@ -7,19 +7,22 @@ public class Book {
 
     private String author;
 
+    private int category_id;
 
     public Book() {
     }
 
-    public Book(int id, String name, String author) {
+    public Book(int id, String name, String author, int category_id) {
         this.id = id;
         this.name = name;
         this.author = author;
+        this.category_id = category_id;
     }
 
-    public Book(String name, String author) {
+    public Book(String name, String author, int category_id) {
         this.name = name;
         this.author = author;
+        this.category_id = category_id;
     }
 
     public int getId() {
@@ -44,5 +47,13 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
     }
 }

@@ -1,7 +1,9 @@
 package com.codegym.controller;
 
 import com.codegym.dao.BookDao;
+import com.codegym.dao.CategoryDao;
 import com.codegym.model.Book;
+import com.codegym.model.Category;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,9 +18,11 @@ import java.util.List;
 @WebServlet(name = "BookServlet", urlPatterns = "/books")
 public class BookServlet extends HttpServlet {
     private BookDao bookDao;
+    private CategoryDao categoryDao;
 
     public void init() {
         bookDao = new BookDao();
+        categoryDao =new CategoryDao();
     }
 
     @Override
@@ -71,6 +75,8 @@ public class BookServlet extends HttpServlet {
 
     private void showCreateForm(HttpServletRequest req, HttpServletResponse resp)
             throws SQLException, IOException, ServletException {
+        List<Category> categories = categoryDao.findAll();
+        req.setAttribute("categories", categories);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/create.jsp");
         requestDispatcher.forward(req, resp);
     }
@@ -121,7 +127,8 @@ public class BookServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         String author = req.getParameter("author");
-        Book book = new Book(id, name, author);
+        int category_id = Integer.parseInt(req.getParameter("author"));
+        Book book = new Book(id, name, author, category_id);
         bookDao.updateById(book);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/edit.jsp");
         requestDispatcher.forward(req, resp);
@@ -131,7 +138,8 @@ public class BookServlet extends HttpServlet {
             throws SQLException, IOException, ServletException {
         String name = req.getParameter("name");
         String author = req.getParameter("author");
-        Book book = new Book(name, author);
+        int categoryId = Integer.parseInt(req.getParameter("category"));
+        Book book = new Book(name, author, categoryId);
         bookDao.insert(book);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("book/create.jsp");
         requestDispatcher.forward(req, resp);

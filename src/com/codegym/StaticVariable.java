@@ -10,11 +10,11 @@ public class StaticVariable {
     private static String jdbcPassword = "123456";
     private static String jdbcDriver = "com.mysql.cj.jdbc.Driver";
 
-    public static final String INSERT_BOOK_SQL = "INSERT INTO books (name, author) VALUES (?, ?)";
+    public static final String INSERT_BOOK_SQL = "INSERT INTO books (name, author, category_id) VALUES (?, ?, ?)";
     public static final String SELECT_ALL_BOOK_SQL = "SELECT * FROM books";
     public static final String SELECT_BOOK_BY_ID_SQL = "SELECT * FROM books WHERE id = ?";
     public static final String DELETE_BOOK_BY_ID_SQL = "DELETE FROM books WHERE id = ?";
-    public static final String UPDATE_BOOK_BY_ID_SQL = "UPDATE books SET name = ?, author = ? WHERE id = ?";
+    public static final String UPDATE_BOOK_BY_ID_SQL = "UPDATE books SET name = ?, author = ?, category_id = ? WHERE id = ?";
 
     public static final String INSERT_CATEGORY_SQL = "INSERT INTO categories (name) VALUES (?)";
     public static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM categories";
